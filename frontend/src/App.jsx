@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Routes, Route, Navigate, Link, useNavigate} from 'react-router-dom'
 import {Activity, UploadCloud, Files, Server, ShieldCheck, LogOut, RefreshCw, Cpu, CheckCircle2, Clock3, AlertTriangle} from 'lucide-react'
-import {request, json, token} from './api'
+import {request, json} from './api'
 
 function Auth({mode,onAuth}) {
  const [name,setName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false)
