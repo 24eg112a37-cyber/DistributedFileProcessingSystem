@@ -1,0 +1,20 @@
+syntax = "proto3";
+package dfps.worker;
+option java_multiple_files = true;
+option java_package = "com.example.dfps.grpc";
+
+// Intended gRPC contract for the strict abstract architecture.
+// The current academic MVP uses REST polling; implement generated stubs and switch the
+// worker transport to gRPC before claiming gRPC is operational.
+service WorkerGateway {
+  rpc RegisterWorker (WorkerRegistration) returns (WorkerReply);
+  rpc Heartbeat (WorkerHeartbeat) returns (WorkerReply);
+  rpc RequestJob (JobRequest) returns (JobAssignment);
+  rpc ReportResult (JobResult) returns (WorkerReply);
+}
+message WorkerRegistration { string worker_name = 1; }
+message WorkerHeartbeat { string worker_name = 1; int32 active_jobs = 2; }
+message JobRequest { string worker_name = 1; }
+message JobAssignment { int64 job_id = 1; string filename = 2; string stored_path = 3; bool has_job = 4; }
+message JobResult { string worker_name = 1; int64 job_id = 2; string status = 3; string result = 4; }
+message WorkerReply { bool success = 1; string message = 2; }
