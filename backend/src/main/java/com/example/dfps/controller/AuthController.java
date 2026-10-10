@@ -14,7 +14,7 @@ public class AuthController {
  public AuthController(UserRepository users,PasswordEncoder encoder,JwtService jwt,@Value("${app.admin.email}") String adminEmail){this.users=users;this.encoder=encoder;this.jwt=jwt;this.adminEmail=adminEmail;}
  public record RegisterRequest(@NotBlank String name,@Email @NotBlank String email,@Size(min=8) String password){}
  public record LoginRequest(@Email @NotBlank String email,@NotBlank String password){}
- @PostMapping("/register") public ResponseEntity<?> register(@RequestBody RegisterRequest r){
+ @PostMapping("/api/auth/register") public ResponseEntity<?> register(@RequestBody RegisterRequest r){
   if(users.findByEmailIgnoreCase(r.email()).isPresent()) return ResponseEntity.badRequest().body(Map.of("message","Email is already registered"));
   AppUser u=new AppUser();u.name=r.name().trim();u.email=r.email().trim().toLowerCase();u.passwordHash=encoder.encode(r.password());
   u.role=u.email.equalsIgnoreCase(adminEmail)?"ADMIN":"USER";users.save(u);

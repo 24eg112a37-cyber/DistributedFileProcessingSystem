@@ -15,7 +15,11 @@ public class SecurityConfig {
  @Bean PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
  @Bean SecurityFilterChain filterChain(HttpSecurity http,JwtFilter jwtFilter) throws Exception {
   return http.csrf(c->c.disable()).cors(c->{}).sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-   .authorizeHttpRequests(a->a.requestMatchers("/api/auth/**","/actuator/health").permitAll()
+   .authorizeHttpRequests(a->a.requestMatchers(
+    "/auth/**",
+    "/api/auth/**",
+    "/actuator/health"
+).permitAll()
     .requestMatchers("/api/workers/**").permitAll()
     .anyRequest().authenticated())
    .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class).build();
