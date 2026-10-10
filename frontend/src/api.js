@@ -1,12 +1,11 @@
-
-const API = (
+const API_BASE = (
   import.meta.env.VITE_API_URL ||
   "http://localhost:8080"
 ).replace(/\/+$/, "");
 
-export function token() {
-  return localStorage.getItem("dfps_token");
-}
+const API = /\/api$/i.test(API_BASE)
+  ? API_BASE
+  : `${API_BASE}/api`;
 
 export async function request(path, options = {}) {
   const headers = new Headers(options.headers || {});
